@@ -1,0 +1,11 @@
+
+QLabel[name='mpQLabel'] {
+    background-color: transparent;
+    }
+
+QLabel[name='afLabel'] {
+    color:black;font-size:20px;
+    }
+    
+QLabel[name='dpsLabel']
+{color:red;font-size:50px;}

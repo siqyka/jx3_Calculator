@@ -1,0 +1,3 @@
+QFrame#combatOptions QLabel {
+    font-size: 20px;
+}

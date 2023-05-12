@@ -1,0 +1,86 @@
+QFrame#materielSelection QComboBox {
+    font-size: 15px;
+}
+
+QCheckBox[name='asCheckBox'] {
+    font-size: 20px;
+}
+
+QLineEdit#LGradeLineEdit {
+    font-size: 20px;
+}
+
+
+QLabel#PZ {
+    font-size: 20px;
+}
+
+QLabel#P {
+    font-size: 20px;
+}
+
+QLabel#adLabel {
+    font-size: 15px;
+    color: rgb(0, 184, 53);
+}
+
+QLabel#inlayLabel {
+    font-size: 15px;
+    color: rgb(0, 184, 53);
+}
+
+QLabel#aNameLabel {
+    font-size: 15px;
+    color: rgb(233, 45, 234);
+}
+
+QLabel#ajcLabel {
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+}
+
+QLabel#gradeLabel {
+    font-size: 15px;
+    color: rgb(201, 201, 17);
+}
+
+QLabel#afrom {
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+}
+
+
+
+QGroupBox#attributeDisplay {
+    background-color: rgb(19, 34, 33)
+}
+
+QGroupBox#inlayBox {
+    background-color: rgb(19, 34, 33)
+}
+
+QGroupBox#gradeBox {
+    background-color: rgb(19, 34, 33)
+}
+
+/* QGroupBox#gradeBox  {background-color:rgba(43, 18, 234, 255)} */
+
+/* QFrame#combatOptions QLabel {
+    font-size: 20px;
+}
+
+QFrame#propertyBenefits QLabel {
+    font-size: 20px;
+}
+
+QFrame#qiXueFrame QLabel {
+    font-size: 20px;
+}
+
+QFrame#rbFrame QLabel {
+    font-size: 20px;
+}
+
+QFrame#rbFrame QLabel {
+    font-size: 18px;border-width: 2px;border-style: solid;border-color:rgb(255, 255, 255);
+} */

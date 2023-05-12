@@ -1,0 +1,16 @@
+QFrame#bbFrame QLabel {
+    font-size: 15px;
+}
+QFrame#bbFrame QCheckBox {
+    font-size: 15px;
+}
+
+QFrame#bbFrame QLineEdit {
+    font-size: 15px;
+}
+
+QToolTip{
+        border: 1px solid rgb(43, 18, 234);
+        background: white;
+        color: red;
+}

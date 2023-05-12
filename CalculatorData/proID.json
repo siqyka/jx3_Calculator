@@ -1,0 +1,16 @@
+{
+    "701": {
+        "pro": "littleRedMan",
+        "atb": "力道",
+        "name":"傲血战意",
+        "Belong":"外攻",
+        "mp":"天策"
+    },
+    "702": {
+        "pro": "littlePinkMan",
+        "atb": "根骨",
+        "name":"冰心诀",
+        "Belong":"内攻",
+        "mp":"七秀"
+    }
+}
