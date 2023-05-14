@@ -177,10 +177,11 @@ class CalculatorUI(QtWidgets.QWidget):
         lableobj = self.materielPanel.findChild(QtWidgets.QLabel, lableobjname)
         lableobj.setStyleSheet(
             '#'+lableobjname+'{background-color: rgb(41,121,255);}')
-        # if lableobjname=='mpQLabel_01':
-        #     xx=self.materielSelection.findChild(QtWidgets.QComboBox, 'msComboBox')
-        #     xx.clear()
-        #     xx.addItems(['火龙沥泉11', '碎魂11', '赤乌流火11'])
+        
+        if lableobjname=='mpQLabel_01':
+            xx=self.materielSelection.findChild(QtWidgets.QComboBox, 'msComboBox')
+            xx.clear()
+            xx.addItems(['火龙沥泉11', '碎魂11', '赤乌流火11'])
 
     def materielSelectionUI(self):
         self.materielSelection = QtWidgets.QFrame(

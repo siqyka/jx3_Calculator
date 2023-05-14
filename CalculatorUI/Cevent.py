@@ -24,6 +24,6 @@ class Cenents():
                 materiel.append(k['ID'])
             elif k['BelongSchool']==d['mp']:
                 materiel.append(k['ID'])
-        print(materiel)
+        return materiel
 a=Cenents()
 a.getMateriel("01")
