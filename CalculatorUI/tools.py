@@ -53,4 +53,4 @@ class Conf():
     
 a=Conf('../Configuration/GameConf.ini')
 c=a.redaConf('professional','pro')
-print(c)
+# print(c)
