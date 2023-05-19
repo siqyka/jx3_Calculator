@@ -18,6 +18,7 @@ class CalculatorUI(QtWidgets.QWidget):
         self.MainWindow = MainWindow
         self.MainWindow.setObjectName("MainWindow")
         self.MainWindow.resize(1660, 1200)
+        self.MainWindow.setFixedSize(self.MainWindow.width(), self.MainWindow.height())
         self.MainWindow.setWindowIcon(QtGui.QIcon(
             Configure.MainWindowConf.windowIcon))
         self.MainWindow.setWindowTitle(Configure.MainWindowConf.windowTitle)
@@ -193,15 +194,18 @@ class CalculatorUI(QtWidgets.QWidget):
         dfm.clear()
         xfm.clear()
         cobj.clear()
-        for ind,x in enumerate(m):
+        cobj.addItem('请选择')
+        dfm.addItem('请选择')
+        xfm.addItem('请选择')
+        for ind,x in enumerate(m,1):
             cobj.addItem('{} ({}品  {})'.format(x['Name'],x['Level'],x['MagicType']))
-            cobj.setItemData(ind, {"id": x['ID']})
+            cobj.setItemData(ind, {"id": x['ID'],'icon':x['_IconID']})
             
-        for ind,x in enumerate(pds):
+        for ind,x in enumerate(pds,1):
             dfm.addItem(x["Name"])
             dfm.setItemData(ind, {"id": x['ID']})
             
-        for ind,x in enumerate(pxs):
+        for ind,x in enumerate(pxs,1):
             xfm.addItem(x["Name"])
             xfm.setItemData(ind, {"id": x['ID']})
         # 第一次随便搞，保存了读取配装文件
@@ -211,11 +215,12 @@ class CalculatorUI(QtWidgets.QWidget):
         pzindex=0
         cobj.setCurrentIndex(pzindex)
         data = cobj.itemData(cobj.currentIndex())
-        tm=Cevent.Cevents().getAMaterielHtml(data['id'],lableobjname[-2:])
-        self.attributeDisplay.setText(self._translate("self", tm))
-        
-        x=Cevent.Cevents().getAMateriel(data['id'],lableobjname[-2:])
-        self.starHidden(x["MaxStrengthLevel"])
+        if data:
+            tm=Cevent.Cevents().getAMaterielHtml(data['id'],lableobjname[-2:])
+            self.attributeDisplay.setText(self._translate("self", tm))
+            
+            x=Cevent.Cevents().getAMateriel(data['id'],lableobjname[-2:])
+            self.starHidden(x["MaxStrengthLevel"])
 
     def materielSelectionUI(self):
         self.materielSelection = QtWidgets.QFrame(
@@ -411,10 +416,21 @@ class CalculatorUI(QtWidgets.QWidget):
     def materielMsComboBoxChangeEvent(self, msComboBox):
         mstext = msComboBox.currentText()
         data = msComboBox.itemData(msComboBox.currentIndex())
+        print(data)
         if  data:
             x=Cevent.Cevents().getAMateriel(data['id'],self.position)
             self.starHidden(x["MaxStrengthLevel"])
-
+            
+            tm=Cevent.Cevents().getAMaterielHtml(data['id'],self.position)
+            self.attributeDisplay.setText(self._translate("self", tm))
+            
+            
+            mpp=self.materielPanel.findChild(
+                QtWidgets.QPushButton, 'materielPlaids_{}'.format(self.position))
+            if data['icon'] in ['17815','19357']:
+                mpp.setStyleSheet('#materielPlaids_'+self.position+'{border-image:url(../artResources/materielImg/'+str(data['icon']+'.png);}'))
+            else:
+                mpp.setStyleSheet('#materielPlaids_'+self.position+'{border-image:url(../artResources/materielImg/mo.png);}')
         # self.starHidden(x)
 
     def refiningButtonEvent(self, robj):
@@ -803,13 +819,16 @@ class CalculatorUI(QtWidgets.QWidget):
 
 if __name__ == '__main__':
     import sys
-
+    import ctypes
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("myappid")
+    QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QtWidgets.QApplication(sys.argv)
     from qt_material import apply_stylesheet
     apply_stylesheet(app, theme='light_blue.xml')
     # apply_stylesheet(app, theme='dark_teal.xml')
 
     MainWindow = QtWidgets.QMainWindow()
+    
     styleFile = '../CQss/'
     qssStyle = tools.CommonHelper.readQsss(styleFile)
 
@@ -819,3 +838,4 @@ if __name__ == '__main__':
     # ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+

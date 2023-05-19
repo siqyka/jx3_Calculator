@@ -40,13 +40,13 @@ class Cevents():
         for k in all_d['list']:
             if k['BelongSchool'] == "通用" and k["MagicKind"] == d['atb']:
                 materiels.append({"ID": k['ID'], "MagicType": self.dealM(
-                    k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name']})
+                    k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name'],'_IconID': k['_IconID']})
             elif k['BelongSchool'] == "精简" and k["MagicKind"] == d['Belong']:
                 materiels.append({"ID": k['ID'], "MagicType": self.dealM(
-                    k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name']})
+                    k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name'],'_IconID': k['_IconID']})
             elif k['BelongSchool'] == d['mp']:
                 materiels.append({"ID": k['ID'], "MagicType": self.dealM(
-                    k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name']})
+                    k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name'],'_IconID': k['_IconID']})
         # print(materiels)
         return materiels
 
