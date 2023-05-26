@@ -1,1 +1,1 @@
-# jx3_tc
+# jx3_Calculator
