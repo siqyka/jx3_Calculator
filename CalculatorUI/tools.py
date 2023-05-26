@@ -50,7 +50,7 @@ class Conf():
         self.config.set(s,k,v)
         
         
-    
-a=Conf('../Configuration/GameConf.ini')
-c=a.redaConf('professional','pro')
-# print(c)
+if __name__=="__main__": 
+    a=Conf('../Configuration/GameConf.ini')
+    c=a.redaConf('professional','pro')
+    # print(c)

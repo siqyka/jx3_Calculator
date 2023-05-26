@@ -1,7 +1,7 @@
 import tools
 import Configure
 
-
+# 装备选择对照字典
 Position = {
     "01": "HAT",
     "02": "JACKET",
@@ -22,6 +22,7 @@ class Cevents():
     def __init__(self):
         pass
 
+    # 转换装备属性
     def dealM(self, m, s):
         i = m.find(s)
         if i == -1:
@@ -30,6 +31,7 @@ class Cevents():
             m = m[:i:].replace("命中", "破招").replace("攻击", "")
         return m
 
+    # 根据职业筛选装备
     def getMateriel(self, position):
         p = '../CalculatorData/materiel/{}.json'.format(Position[position])
         d = Configure.GameConf().getPro(True)
@@ -50,6 +52,7 @@ class Cevents():
         # print(materiels)
         return materiels
 
+    # 根据装备id查询对应装备全部数据
     def getAMateriel(self, id, position):
         p = '../CalculatorData/materiel/{}.json'.format(Position[position])
         all_d = tools.CommonHelper.readDate(p)
@@ -57,6 +60,7 @@ class Cevents():
             if id == k['ID']:
                 return k
 
+    # 依据部位合id给出装备展示html
     def getAMaterielHtml(self, id, position):
         attr_d = tools.CommonHelper.readDate(
             '../CalculatorData/materiel/attr.json')
@@ -163,6 +167,7 @@ class Cevents():
         htmlall = htmlStrH+hs1+hs2+hs3+hs4+hs5+hs6+hs7+yz+hs8+htmlStrL
         return htmlall
 
+    # 获取附魔
     def getFM(self,position="01"):
         position="01"
         pd = '../CalculatorData/fm/{}_D.json'.format(Position[position])
@@ -181,5 +186,8 @@ class Cevents():
             else:
                 pxs.append({"ID":p["ID"],"Name":x["Name"]+"（"+str(x["Attribute1Value1"])+"点）"})
         return (pds,pxs)
-a = Cevents()
-a.getFM('01')
+    
+    
+if __name__=="__main__":
+    a = Cevents()
+    a.getFM('01')

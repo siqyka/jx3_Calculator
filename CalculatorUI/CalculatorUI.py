@@ -171,8 +171,9 @@ class CalculatorUI(QtWidgets.QWidget):
 
     # def setComboDate(self,obj):
         
-
+    # 点击装备格子事件
     def materielPlaidEvent(self, mobj):
+        # 选择改变底色
         for i in range(1, 13):
             lableobjname = 'mpQLabel_'+str(i).zfill(2)
             lableobj = self.materielPanel.findChild(
@@ -185,6 +186,7 @@ class CalculatorUI(QtWidgets.QWidget):
         lableobj.setStyleSheet(
             '#'+lableobjname+'{background-color: rgb(41,121,255);}')
         
+        # 获取装备选择区域数据
         m=Cevent.Cevents().getMateriel(lableobjname[-2:])
         pds,pxs=Cevent.Cevents().getFM(lableobjname[-2:])
         cobj=self.materielSelection.findChild(QtWidgets.QComboBox, 'msComboBox')
@@ -197,14 +199,16 @@ class CalculatorUI(QtWidgets.QWidget):
         cobj.addItem('请选择')
         dfm.addItem('请选择')
         xfm.addItem('请选择')
+        # 装备名称组装
         for ind,x in enumerate(m,1):
             cobj.addItem('{} ({}品  {})'.format(x['Name'],x['Level'],x['MagicType']))
             cobj.setItemData(ind, {"id": x['ID'],'icon':x['_IconID']})
-            
+        
+        # 大附魔
         for ind,x in enumerate(pds,1):
             dfm.addItem(x["Name"])
             dfm.setItemData(ind, {"id": x['ID']})
-            
+        # 小附魔
         for ind,x in enumerate(pxs,1):
             xfm.addItem(x["Name"])
             xfm.setItemData(ind, {"id": x['ID']})
@@ -222,6 +226,7 @@ class CalculatorUI(QtWidgets.QWidget):
             x=Cevent.Cevents().getAMateriel(data['id'],lableobjname[-2:])
             self.starHidden(x["MaxStrengthLevel"])
 
+    # 装备选择UI
     def materielSelectionUI(self):
         self.materielSelection = QtWidgets.QFrame(
             self.Calculators, objectName='materielSelection')
@@ -240,6 +245,7 @@ class CalculatorUI(QtWidgets.QWidget):
             self.msHorizontalLayoutWidget, objectName='msHorizontalLayout')
         self.msHorizontalLayout.setContentsMargins(0, 0, 0, 0)
         
+        # 属性筛选
         attributeSelectionL = ["会心", "会效", "破防", "破招", "无双",  "加速"]
         for asi, asm in enumerate(attributeSelectionL, 1):
             self.asCheckBox = QtWidgets.QCheckBox(
@@ -268,7 +274,7 @@ class CalculatorUI(QtWidgets.QWidget):
             self.gradeSelection, objectName='gsHorizontalSlider')
         self.gsHorizontalSlider.setGeometry(QtCore.QRect(260, 10, 300, 30))
         self.gsHorizontalSlider.setOrientation(QtCore.Qt.Horizontal)
-        # 双滑动条的问题
+        # 双滑动条的问题有待解决
         # self.gsHorizontalSlider_1 = QtWidgets.QSlider(self.gradeSelection,objectName='gsHorizontalSlider')
         # self.gsHorizontalSlider_1.setGeometry(QtCore.QRect(260, 10, 300, 30))
         # self.gsHorizontalSlider_1.setOrientation(QtCore.Qt.Horizontal)
@@ -338,7 +344,7 @@ class CalculatorUI(QtWidgets.QWidget):
         # self.afrom.setText('来源：副本')
         
         
-
+        # 清除精炼按钮
         self.xpushButton = QtWidgets.QPushButton(
             self.materielSelection, objectName='xpushButton')
         self.xpushButton.setGeometry(QtCore.QRect(390, 208, 30, 30))
@@ -381,6 +387,7 @@ class CalculatorUI(QtWidgets.QWidget):
                 QtWidgets.QComboBox, 'wcs3')
         wcs4=self.materielSelection.findChild(
                 QtWidgets.QComboBox, 'wcs4')
+        # 测试数据
         wcs2.addItems(['会心', '会效', '破防'])
         wcs3.addItems(['会心', '会效', '破防'])
         wcs4.addItems(['会心', '会效', '破防'])
@@ -401,6 +408,7 @@ class CalculatorUI(QtWidgets.QWidget):
             self.refiningButton.clicked.connect(
                 partial(self.refiningButtonEvent, self.refiningButton))
 
+    # 依据可精炼等级显示星星
     def starHidden(self,x):
         for i in range(8, int(x), -1):
             lableobj = self.materielSelection.findChild(
@@ -412,11 +420,11 @@ class CalculatorUI(QtWidgets.QWidget):
                 QtWidgets.QPushButton, 'refiningButton_{}'.format(str(ii).zfill(2)))
             lableobj.setHidden(False)
             
-    
+    # 装备选择后事件
     def materielMsComboBoxChangeEvent(self, msComboBox):
         mstext = msComboBox.currentText()
         data = msComboBox.itemData(msComboBox.currentIndex())
-        print(data)
+        # print(data)
         if  data:
             x=Cevent.Cevents().getAMateriel(data['id'],self.position)
             self.starHidden(x["MaxStrengthLevel"])
@@ -427,12 +435,14 @@ class CalculatorUI(QtWidgets.QWidget):
             
             mpp=self.materielPanel.findChild(
                 QtWidgets.QPushButton, 'materielPlaids_{}'.format(self.position))
+            # 图片展示数据，数据全则去除if else
             if data['icon'] in ['17815','19357']:
                 mpp.setStyleSheet('#materielPlaids_'+self.position+'{border-image:url(../artResources/materielImg/'+str(data['icon']+'.png);}'))
             else:
                 mpp.setStyleSheet('#materielPlaids_'+self.position+'{border-image:url(../artResources/materielImg/mo.png);}')
         # self.starHidden(x)
 
+    # 装备精炼事件
     def refiningButtonEvent(self, robj):
         if robj==0:
             starIndex=0
@@ -453,6 +463,7 @@ class CalculatorUI(QtWidgets.QWidget):
             lableobj.setStyleSheet(
                 '#'+lableobjname+'{border-image:url(../artResources/defaultLattice/5j_no.png);}')
 
+    # 战斗选项ui
     def combatOptionsUI(self):
         self.combatOptions = QtWidgets.QFrame(
             self.Calculators, objectName='combatOptions')
@@ -495,6 +506,7 @@ class CalculatorUI(QtWidgets.QWidget):
         self.coTitleLabel.setAlignment(Qt.AlignCenter)
         self.coTitleLabel.setText('战斗选项')
 
+    # 属性收益ui
     def propertyBenefitsUI(self):
         self.propertyBenefits = QtWidgets.QFrame(
             self.Calculators, objectName='propertyBenefits')
@@ -514,6 +526,7 @@ class CalculatorUI(QtWidgets.QWidget):
         self.pbLabel.setStyleSheet(
             '#pbLabel{border-image:url(../artResources/defaultLattice/sy.png);}')
 
+    # 奇穴UI
     def qiXueUI(self):
         self.qiXueFrame = QtWidgets.QFrame(
             self.Calculators, objectName='qiXueFrame')
@@ -544,7 +557,7 @@ class CalculatorUI(QtWidgets.QWidget):
             self.qxComboBox.setIconSize(size)
 
             theQx=all[str(qxi)]
-            # 需要修改为多现场加快加载速度
+            # 需要修改为多进程加快加载速度
             ind=0
             _translate = QtCore.QCoreApplication.translate
             for k,v in theQx.items():
@@ -569,14 +582,15 @@ class CalculatorUI(QtWidgets.QWidget):
                 self.qxComboBox.setItemData(ind,_translate('self',desc),QtCore.Qt.ToolTipRole)
 
                 ind+=1
-                
+    
+    # 奇穴事件    
     def qiXueEvent(self,obj):
         op=obj.parent()
         for qxComboBox in op.findChildren(QtWidgets.QComboBox):
             print(qxComboBox.currentIndex())
         # print(obj.currentIndex())
 
-
+    # 秘籍UI
     def rareBookUI(self):
         self.rbFrame = QtWidgets.QFrame(self.Calculators, objectName='rbFrame')
         self.rbFrame.setGeometry(QtCore.QRect(10, 950, 600, 170))
@@ -640,7 +654,7 @@ class CalculatorUI(QtWidgets.QWidget):
             self.arb.setAlignment(Qt.AlignCenter)
             self.arb.setText(k)
             c += 1
-
+    # 秘籍事件,选择4本后其余的不可选
     def rareBookEvent(self, obj):
         groupbox = obj.parent()
         zt = 0
@@ -659,6 +673,7 @@ class CalculatorUI(QtWidgets.QWidget):
         for x in groupbox.parent().parent().findChildren(QtWidgets.QGroupBox):
             print(x.objectName())
 
+    # 增益UI
     def buffBoxUI(self):
         self.bbFrame = QtWidgets.QFrame(self.Calculators, objectName='bbFrame')
         self.bbFrame.setGeometry(QtCore.QRect(630, 710, 1010, 410))
