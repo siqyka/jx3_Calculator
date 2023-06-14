@@ -32,7 +32,7 @@ class Cevents():
         return m
 
     # 根据职业筛选装备
-    def getMateriel(self, position):
+    def getMateriel(self, position,minLevel=0,maxLevel=9999999,needMagic=[]):
         p = '../CalculatorData/materiel/{}.json'.format(Position[position])
         d = Configure.GameConf().getPro(True)
         # print(d)
@@ -40,16 +40,19 @@ class Cevents():
         materiels = []
         # 返回名称，属性，品级
         for k in all_d['list']:
-            if k['BelongSchool'] == "通用" and k["MagicKind"] == d['atb']:
-                materiels.append({"ID": k['ID'], "MagicType": self.dealM(
-                    k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name'],'_IconID': k['_IconID']})
-            elif k['BelongSchool'] == "精简" and k["MagicKind"] == d['Belong']:
-                materiels.append({"ID": k['ID'], "MagicType": self.dealM(
-                    k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name'],'_IconID': k['_IconID']})
-            elif k['BelongSchool'] == d['mp']:
-                materiels.append({"ID": k['ID'], "MagicType": self.dealM(
-                    k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name'],'_IconID': k['_IconID']})
-        # print(materiels)
+            if k['Level']>=minLevel and k['Level']<=maxLevel:
+                if k['BelongSchool'] == "通用" and k["MagicKind"] == d['atb']:
+                    materiels.append({"ID": k['ID'], "MagicType": self.dealM(
+                        k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name'],'_IconID': k['_IconID']})
+                elif k['BelongSchool'] == "精简" and k["MagicKind"] == d['Belong']:
+                    materiels.append({"ID": k['ID'], "MagicType": self.dealM(
+                        k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name'],'_IconID': k['_IconID']})
+                elif k['BelongSchool'] == d['mp']:
+                    materiels.append({"ID": k['ID'], "MagicType": self.dealM(
+                        k['MagicType'], "高级"), 'Level': k['Level'], 'Name': k['Name'],'_IconID': k['_IconID']})
+        if needMagic:
+            for nm in needMagic:
+                materiels=[x for x in materiels if nm in x['MagicType']]
         return materiels
 
     # 根据装备id查询对应装备全部数据
@@ -178,13 +181,13 @@ class Cevents():
         pxs=[]
         for p in all_pd:
             pds.append({"ID":p["ID"],"Name":p["Name"]})
-        
+            
         for x in all_px:
             if x["Name"].find("）")!=-1:
                 name=x["Name"].replace("）", str(x["Attribute1Value1"])+"点）")
-                pxs.append({"ID":p["ID"],"Name":name})
+                pxs.append({"ID":x["ID"],"Name":name})
             else:
-                pxs.append({"ID":p["ID"],"Name":x["Name"]+"（"+str(x["Attribute1Value1"])+"点）"})
+                pxs.append({"ID":x["ID"],"Name":x["Name"]+"（"+str(x["Attribute1Value1"])+"点）"})
         return (pds,pxs)
     
     

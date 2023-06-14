@@ -1,8 +1,9 @@
-from PyQt5.QtWidgets import QWidget, QComboBox, QLineEdit, QApplication
+from PyQt5.QtWidgets import QStyle, QComboBox, QLineEdit, QApplication,QStyleOptionComboBox
 from PyQt5.QtGui import QMouseEvent
 from PyQt5.Qt import Qt, QRect, QCompleter, QSortFilterProxyModel
 import sys
- 
+from PyQt5.QtCore import pyqtSignal    
+
 # 带搜索功能的下拉框
 class ExtendedComboBox(QComboBox):
     def __init__(self, parent=None):
@@ -58,15 +59,30 @@ class ExtendedComboBox(QComboBox):
             super(ExtendedComboBox, self).keyPressEvent(e)
         else:
             super(ExtendedComboBox, self).keyPressEvent(e)
+            
+    arrowClicked = pyqtSignal()
+    def mousePressEvent(self, event):
+        super().mousePressEvent(event)
+        opt = QStyleOptionComboBox()
+        self.initStyleOption(opt)
+        rect = self.style().subControlRect(
+            QStyle.CC_ComboBox, opt, QStyle.SC_ComboBoxArrow, self
+        )
+        if event.button() == Qt.LeftButton and rect.contains(event.pos()):
+            self.arrowClicked.emit()
  
 def run():
     app = QApplication(sys.argv)
     win = ExtendedComboBox()
+    win.arrowClicked.connect(scan_printer_list_slot)   
     l = ["", "1aew","2asd","3ewqr","3ewqc","2wqpu","1kjijhm", "4kjndw", "5ioijb","6eolv", "11ofmsw"]
     win.addItems(l)
     win.show()
     sys.exit(app.exec_())
- 
+    
+    
+def scan_printer_list_slot():
+	     print("扫描打印机并刷新列表")
  
 if __name__ == '__main__':
     run()

@@ -10,7 +10,9 @@ QLineEdit#LGradeLineEdit {
     font-size: 20px;
 }
 
-
+QLineEdit#HGradeLineEdit {
+    font-size: 20px;
+}
 QLabel#PZ {
     font-size: 20px;
 }
