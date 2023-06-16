@@ -14,7 +14,7 @@ Position = {
     "09": "NECKLACE",
     "10": "PENDANT",
     "11": "RING",
-    "12": "RING",
+    "12": "RING"
 }
 
 
