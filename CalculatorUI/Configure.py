@@ -51,7 +51,15 @@ class GameConf():
 
 
 class MainWindowConf():
-    windowIcon = "../artResources/defaultLattice/10026.png"
-    windowTitle = "天策DPS计算器"
+    def __init__(self) -> None:
+        self.pro=tools.Conf(CONFPATH).redaConf('professional','pro')
+        self.proName=tools.CommonHelper.readDate('../CalculatorData/proID.json')
+
+        
+    def getMsg(self):
+        return "../artResources/defaultLattice/{}.png".format(self.pro),"{}DPS计算器".format(self.proName[self.pro]['mp'])
+    
+    # windowIcon = getMsg(self)[0]
+    # windowTitle = getMsg()[1]
 
 

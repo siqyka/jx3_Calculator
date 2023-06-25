@@ -1,0 +1,203 @@
+{
+    "Vitality": 42599,
+    "Agility": 41,
+    "Spirit": 41,
+    "Spunk": 41,
+    "Strength": 8463,
+    "PhysicsAttackPowerBase": 23675,
+    "PhysicsAttackPower": 37212,
+    "PhysicsCriticalStrikeRate": 0.16731851569207287,
+    "PhysicsCriticalDamagePowerPercent": 1.8311230748262233,
+    "PhysicsOvercomePercent": 0.4105186174441159,
+    "StrainPercent": 0.36438825077414694,
+    "HastePercent": 0.045717543109590995,
+    "SurplusValue": 12766,
+    "MaxHealth": 588035,
+    "PhysicsShieldPercent": 0.08818405327515183,
+    "LunarShieldPercent": 0.06101084848450975,
+    "ToughnessDefCriticalPercent": 0,
+    "DecriticalDamagePercent": 0.1,
+    "MeleeWeaponAttackSpeed": 27,
+    "MeleeWeaponDamage": 3282,
+    "MeleeWeaponDamageRand": 2188,
+    "PhysicsOvercome": 32276,
+    "Strain": 27624,
+    "Haste": 4411,
+    "EquipList": {
+        "HAT": {
+            "id": "7_94311",
+            "stone": "",
+            "enchant": 11868,
+            "enhance": 11718,
+            "strength": 6,
+            "embedding": [
+                7,
+                7
+            ]
+        },
+        "BELT": {
+            "id": "7_94253",
+            "stone": "",
+            "enchant": 11864,
+            "enhance": 11835,
+            "strength": 6,
+            "embedding": [
+                7,
+                7
+            ]
+        },
+        "SHOES": {
+            "id": "7_94282",
+            "stone": "",
+            "enchant": 11865,
+            "enhance": 11777,
+            "strength": 6,
+            "embedding": [
+                7,
+                7
+            ]
+        },
+        "WRIST": {
+            "id": "7_94403",
+            "stone": "",
+            "enchant": 11866,
+            "enhance": 11772,
+            "strength": 6,
+            "embedding": [
+                7,
+                7
+            ]
+        },
+        "JACKET": {
+            "id": "7_94340",
+            "stone": "",
+            "enchant": 11867,
+            "enhance": 11834,
+            "strength": 6,
+            "embedding": [
+                7,
+                7
+            ]
+        },
+        "RING_1": {
+            "id": "8_37713",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11844,
+            "strength": 6,
+            "embedding": []
+        },
+        "RING_2": {
+            "id": "8_37713",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11844,
+            "strength": 6,
+            "embedding": []
+        },
+        "BOTTOMS": {
+            "id": "7_94421",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11717,
+            "strength": 6,
+            "embedding": [
+                7,
+                7
+            ]
+        },
+        "PENDANT": {
+            "id": "8_37719",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11838,
+            "strength": 4,
+            "embedding": [
+                6
+            ]
+        },
+        "NECKLACE": {
+            "id": "8_37769",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11836,
+            "strength": 6,
+            "embedding": [
+                6
+            ]
+        },
+        "PRIMARY_WEAPON": {
+            "id": "6_34740",
+            "stone": 1040,
+            "enchant": "",
+            "enhance": 11704,
+            "strength": 4,
+            "embedding": [
+                8,
+                8,
+                8
+            ]
+        },
+        "SECONDARY_WEAPON": {
+            "id": "6_34696",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11853,
+            "strength": 6,
+            "embedding": [
+                7
+            ]
+        }
+    },
+    "Title": "普通的天策普通的配装",
+    "TalentCode": [
+        {
+            "id": 5657,
+            "name": "扬戈"
+        },
+        {
+            "id": 5660,
+            "name": "神勇"
+        },
+        {
+            "id": 5659,
+            "name": "大漠"
+        },
+        {
+            "id": 24896,
+            "name": "龙驭"
+        },
+        {
+            "id": 14824,
+            "name": "驰骋"
+        },
+        {
+            "id": 6511,
+            "name": "牧云"
+        },
+        {
+            "id": 5666,
+            "name": "风虎"
+        },
+        {
+            "id": 6781,
+            "name": "战心"
+        },
+        {
+            "id": 2628,
+            "name": "渊"
+        },
+        {
+            "id": 5678,
+            "name": "夜征"
+        },
+        {
+            "id": 15001,
+            "name": "龙血"
+        },
+        {
+            "id": 6517,
+            "name": "虎贲"
+        }
+    ]
+}

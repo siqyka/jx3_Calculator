@@ -1,0 +1,203 @@
+{
+    "Vitality": 42570,
+    "Agility": 41,
+    "Spirit": 8281,
+    "Spunk": 41,
+    "Strength": 41,
+    "LunarAttackPowerBase": 26629,
+    "LunarAttackPower": 50427,
+    "LunarCriticalStrikeRate": 0.24484085344526058,
+    "LunarCriticalDamagePowerPercent": 1.785436827041025,
+    "LunarOvercomePercent": 0.36153772774968995,
+    "StrainPercent": 0.3934876021066031,
+    "HastePercent": 0.05628927150945107,
+    "SurplusValue": 8251,
+    "MaxHealth": 597507,
+    "PhysicsShieldPercent": 0.07260081145979962,
+    "LunarShieldPercent": 0.0847067027692576,
+    "ToughnessDefCriticalPercent": 0,
+    "DecriticalDamagePercent": 0.1,
+    "MeleeWeaponAttackSpeed": 21,
+    "MeleeWeaponDamage": 1255,
+    "MeleeWeaponDamageRand": 837,
+    "LunarOvercome": 28425,
+    "Strain": 29830,
+    "Haste": 5431,
+    "EquipList": {
+        "HAT": {
+            "id": "7_94315",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11719,
+            "strength": 6,
+            "embedding": [
+                6,
+                6
+            ]
+        },
+        "BELT": {
+            "id": "7_94257",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11724,
+            "strength": 6,
+            "embedding": [
+                6,
+                6
+            ]
+        },
+        "SHOES": {
+            "id": "7_94286",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11774,
+            "strength": 6,
+            "embedding": [
+                6,
+                6
+            ]
+        },
+        "WRIST": {
+            "id": "7_94365",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11770,
+            "strength": 6,
+            "embedding": [
+                6,
+                6
+            ]
+        },
+        "JACKET": {
+            "id": "7_94344",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11779,
+            "strength": 6,
+            "embedding": [
+                6,
+                6
+            ]
+        },
+        "RING_1": {
+            "id": "8_37711",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11845,
+            "strength": 6,
+            "embedding": []
+        },
+        "RING_2": {
+            "id": "8_37711",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11845,
+            "strength": 6,
+            "embedding": []
+        },
+        "BOTTOMS": {
+            "id": "7_94419",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11715,
+            "strength": 6,
+            "embedding": [
+                6,
+                6
+            ]
+        },
+        "PENDANT": {
+            "id": "8_37717",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11838,
+            "strength": 4,
+            "embedding": [
+                7
+            ]
+        },
+        "NECKLACE": {
+            "id": "8_37681",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11836,
+            "strength": 6,
+            "embedding": [
+                7
+            ]
+        },
+        "PRIMARY_WEAPON": {
+            "id": "6_34744",
+            "stone": 2030,
+            "enchant": "",
+            "enhance": 11705,
+            "strength": 4,
+            "embedding": [
+                7,
+                7,
+                7
+            ]
+        },
+        "SECONDARY_WEAPON": {
+            "id": "6_34700",
+            "stone": "",
+            "enchant": "",
+            "enhance": 11853,
+            "strength": 6,
+            "embedding": [
+                7
+            ]
+        }
+    },
+    "Title": "小钱",
+    "TalentCode": [
+        {
+            "id": 5849,
+            "name": "青梅嗅"
+        },
+        {
+            "id": 5868,
+            "name": "千里冰封"
+        },
+        {
+            "id": 5852,
+            "name": "新妆"
+        },
+        {
+            "id": 5855,
+            "name": "青梅"
+        },
+        {
+            "id": 5864,
+            "name": "枕上"
+        },
+        {
+            "id": 23935,
+            "name": "广陵月"
+        },
+        {
+            "id": 18907,
+            "name": "望舒"
+        },
+        {
+            "id": 6561,
+            "name": "元君"
+        },
+        {
+            "id": 24995,
+            "name": "盈袖"
+        },
+        {
+            "id": 24996,
+            "name": "化冰"
+        },
+        {
+            "id": 25000,
+            "name": "疾光"
+        },
+        {
+            "id": 14705,
+            "name": "霜降"
+        }
+    ]
+}

@@ -34,7 +34,7 @@ class CommonHelper:
             return json.loads(f.read())
         
 class Conf():
-    def __init__(self,filepath) -> None:
+    def __init__(self,filepath='../Configuration/GameConf.ini') -> None:
         self.config = configparser.ConfigParser() # 类实例化
 
         self.path = filepath
@@ -48,9 +48,13 @@ class Conf():
    
     def writeConf(self,s,k,v):
         self.config.set(s,k,v)
+        with open(self.path, 'w') as f:
+            self.config.write(f)
         
         
 if __name__=="__main__": 
     a=Conf('../Configuration/GameConf.ini')
-    c=a.redaConf('professional','pro')
+    c=a.writeConf('professional','pro','701')
+    b=CommonHelper.readDate('../CalculatorData/qiXue/all.json')
+    print(b.keys())
     # print(c)

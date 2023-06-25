@@ -1,9 +1,6 @@
-import sys
+import sys,os
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt
-# from PyQt5.QtWidgets import (QApplication, QWidget, QGroupBox, QMenu, QAction,
-#                              QPushButton, QCheckBox, QRadioButton,
-#                              QVBoxLayout, QGridLayout,QCompleter)
+from PyQt5.QtCore import Qt,QSettings
 from functools import partial
 import tools
 import Configure
@@ -11,26 +8,35 @@ from ExtendedTools import ExtendedComboBox
 import requests
 import Cevent
 import time
+from ChooseXfUI import ChooseXF
+from MenuCevent import MenuC
 
 
 class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
     def __init__(self, MainWindow):
-        self.PRO = Configure.GameConf().getPro()
+        self.PROM = Configure.GameConf().getPro()
+        self.proid=Configure.GameConf().pro
         self.MainWindow = MainWindow
         self.MainWindow.setObjectName("MainWindow")
         self.MainWindow.resize(1660, 1200)
         self.MainWindow.setFixedSize(
             self.MainWindow.width(), self.MainWindow.height())
+
         self.MainWindow.setWindowIcon(QtGui.QIcon(
-            Configure.MainWindowConf.windowIcon))
-        self.MainWindow.setWindowTitle(Configure.MainWindowConf.windowTitle)
+            Configure.MainWindowConf().getMsg()[0]))
+        self.MainWindow.setWindowTitle(Configure.MainWindowConf().getMsg()[1]+'    -- Untitled Project')
         self.Calculators = QtWidgets.QWidget(self.MainWindow)
         self.Calculators.setObjectName("Calculators")
         self._translate = QtCore.QCoreApplication.translate
+        
         self.position = None
-        self.userData = None
+        self.userData = {}
         self.N2Position = {"01": "HAT", "02": "JACKET", "03": "BELT", "04": "SECONDARY_WEAPON", "05": "PRIMARY_WEAPON",
                            "06": "WRIST", "07": "BOTTOMS", "08": "SHOES", "09": "NECKLACE", "10": "PENDANT", "11": "RING_1", "12": "RING_2"}
+        self.setting = QSettings('../userData/.temp', QSettings.IniFormat) 
+        self.setting.setIniCodec('UTF-8') 
+        self.setting.clear()
+        
         self.materielPanelUI()
         self.materielSelectionUI()
         self.combatOptionsUI()
@@ -54,51 +60,108 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
         # '文件'菜单
         self.fileMenu = QtWidgets.QMenu(self.menubar, objectName='fileMenu')
         self.fnew = QtWidgets.QAction(self.MainWindow, objectName='fnew')
+        self.openf = QtWidgets.QAction(self.MainWindow, objectName='openf')
         self.fsave = QtWidgets.QAction(self.MainWindow, objectName='fsave')
         self.osave = QtWidgets.QAction(self.MainWindow, objectName='osave')
         self.dimport = QtWidgets.QAction(self.MainWindow, objectName='dimport')
+        self.jx3c = QtWidgets.QAction(self.MainWindow, objectName='jx3c')
         self.jx3box = QtWidgets.QAction(self.MainWindow, objectName='jx3box')
+        self.jx3boxId = QtWidgets.QAction(self.MainWindow, objectName='jx3boxId')
         self.importMenu = QtWidgets.QMenu(
             self.fileMenu, objectName='importMenu')
+        self.importMenu.addAction(self.jx3c)
         self.importMenu.addAction(self.jx3box)
+        self.importMenu.addAction(self.jx3boxId)
+        
         # '帮助'菜单
-        self.helps = QtWidgets.QMenu(self.menubar, objectName='importMenu')
-        self.helps.setObjectName("helps")
+        self.helps = QtWidgets.QMenu(self.menubar, objectName='helps')
         self.useHelp = QtWidgets.QAction(self.MainWindow, objectName='useHelp')
         self.lxfs = QtWidgets.QAction(self.MainWindow, objectName='lxfs')
         self.project = QtWidgets.QAction(self.MainWindow, objectName='project')
         self.about = QtWidgets.QAction(self.MainWindow, objectName='about')
 
         self.fileMenu.addAction(self.fnew)
+        self.fileMenu.addAction(self.openf)
         self.fileMenu.addAction(self.fsave)
         self.fileMenu.addAction(self.osave)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.importMenu.menuAction())
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.dimport)
+        
         self.helps.addAction(self.useHelp)
         self.helps.addSeparator()
         self.helps.addAction(self.lxfs)
         self.helps.addSeparator()
         self.helps.addAction(self.project)
         self.helps.addAction(self.about)
+        
         self.menubar.addAction(self.fileMenu.menuAction())
+        self.xf = QtWidgets.QAction(self.statusbar)
+        self.xf.setText("心法选择")
+        self.menubar.addAction(self.xf)
         self.menubar.addAction(self.helps.menuAction())
 
         _translate = QtCore.QCoreApplication.translate
         self.fileMenu.setTitle(_translate("MainWindow", "文件"))
         self.importMenu.setTitle(_translate("MainWindow", "导入"))
-        self.helps.setTitle(_translate("MainWindow", "帮助"))
         self.fnew.setText(_translate("MainWindow", "新建"))
+        self.openf.setText(_translate("MainWindow", "打开"))
         self.fsave.setText(_translate("MainWindow", "保存"))
         self.osave.setText(_translate("MainWindow", "另存为"))
         self.dimport.setText(_translate("MainWindow", "导出"))
-        self.jx3box.setText(_translate("MainWindow", "从jx3box导入"))
+        self.jx3c.setText(_translate("MainWindow", "计算器数据"))
+        self.jx3box.setText(_translate("MainWindow", "jx3box导入(数据版)"))
+        self.jx3boxId.setText(_translate("MainWindow", "jx3box导入(方案ID)"))
+        
+        self.helps.setTitle(_translate("MainWindow", "帮助"))
         self.useHelp.setText(_translate("MainWindow", "使用帮助"))
         self.lxfs.setText(_translate("MainWindow", "联系作者"))
         self.project.setText(_translate("MainWindow", "项目主页"))
         self.about.setText(_translate("MainWindow", "关于项目"))
+        self.xf.setCheckable(False)
+        self.eventOfMenubar()
+        
+    def chooseXF(self):
+        self.child_window = ChooseXF()
+        self.child_window.my_Signal.connect(partial(self.initWindow))
+        self.child_window.show()
+    
 
+    def initWindow(self,info):
+        if info!=self.proid:
+            self.__init__(MainWindow)
+    
+    def openEvent(self):
+        self.oe=MenuC(MainWindow)
+        d,p=self.oe.openJx3cFile()
+        self.MainWindow.setWindowTitle(Configure.MainWindowConf().getMsg()[1]+'    -- {}'.format(os.path.basename(p)))
+        if d:
+            self.userData=d
+            self.DataFromMenu()
+    
+    # 菜单导入数据UI处理
+    def DataFromMenu(self):
+        pass
+        
+    def eventOfMenubar(self):
+        self.xf.triggered.connect(partial(self.chooseXF))
+        self.fnew.triggered.connect(partial(self.initWindow,0))
+        self.openf.triggered.connect(partial(self.openEvent))
+        # self.fsave.triggered.connect()
+        # self.osave.triggered.connect()
+        # self.dimport.triggered.connect()
+        # self.jx3c.triggered.connect()
+        # self.jx3box.triggered.connect()
+        # self.jx3boxId.triggered.connect()
+        # self.useHelp.triggered.connect()
+        # self.lxfs.triggered.connect()
+        # self.project.triggered.connect()
+        # self.about.triggered.connect()
+        
+        
+    
+    
     def materielPanelUI(self):
         # 装备属性面板
         self.materielPanel = QtWidgets.QGroupBox(self.Calculators)
@@ -195,7 +258,7 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
         pds, pxs = Cevent.Cevents().getFM(lableobjname[-2:])
         cobj = self.materielSelection.findChild(
             QtWidgets.QComboBox, 'msComboBox')
-        
+
         self.dfm.clear()
         self.xfm.clear()
 
@@ -217,7 +280,7 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
 
         # 如果之前配装过则展示装备
         p = self.N2Position[self.position]
-        if self.userData:
+        if self.userData and 'EquipList' in self.userData:
             E = self.userData['EquipList']
             if p in E:
                 d = E[p]
@@ -298,7 +361,6 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
             self.wxs2.setCurrentIndex(6)
             self.wxs3.setCurrentIndex(0)
 
-
     # 装备选择UI
 
     def materielSelectionUI(self):
@@ -329,8 +391,8 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
             self.asCheckBox.setText(asm)
             self.asCheckBox.stateChanged.connect(
                 partial(self.materielItemsEvent))
-        
-        # 品级筛选 
+
+        # 品级筛选
         self.gradeSelection = QtWidgets.QGroupBox(
             self.materielSelection, objectName='gradeSelection')
         self.gradeSelection.setGeometry(QtCore.QRect(10, 70, 580, 50))
@@ -451,7 +513,6 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
         wcs2.addItems(['会心', '会效', '破防'])
         wcs3.addItems(['会心', '会效', '破防'])
         wcs4.addItems(['会心', '会效', '破防'])
-        
 
         self.wxs1.setEditable(False)
         self.wxs2.setEditable(False)
@@ -483,9 +544,9 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
     # 五行石变更事件
     def wxsEvent(self, obj):
         # 没有配装数据，选择五行石无效
-        if not self.userData:
+        if not self.userData or 'EquipList' not in self.userData:
             return
-        
+
         p = self.N2Position[self.position]
         E = self.userData['EquipList']
         # 有配装数据且该部位选择了装备则可现在镶嵌五行石
@@ -506,7 +567,7 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
                                         ).currentIndex()
             else:
                 return
-            self.setUserData('embedding', s)
+            self.setUserEData('embedding', s)
         else:
             print(999999)
 
@@ -514,13 +575,13 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
     def dfmEvent(self):
         data = self.dfm.itemData(self.dfm.currentIndex())
         if data:
-            self.setUserData('enchant', data['id'])
+            self.setUserEData('enchant', data['id'])
 
     # 小附魔变更事件
     def xfmEvent(self):
         data = self.xfm.itemData(self.xfm.currentIndex())
         if data:
-            self.setUserData('enhance', data['id'])
+            self.setUserEData('enhance', data['id'])
 
     # 装备筛选
     def materielItemsEvent(self):
@@ -590,7 +651,7 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
                                   '{border-image:url(../artResources/materielImg/mo.png);}')
 
             # 记录临时数据
-            self.setUserData('id', data['id'])
+            self.setUserEData('id', data['id'])
 
             # 选择装备后，如果没有选择镶嵌。默认镶嵌6
             p = self.N2Position[self.position]
@@ -606,7 +667,7 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
                     s = []
                 elif self.position in ['04', '09', "10"]:
                     s = [w1]
-                self.setUserData('embedding', s)
+                self.setUserEData('embedding', s)
             # print(self.userData)
         else:
             self.starHidden(6)
@@ -639,7 +700,7 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
             lableobj.setStyleSheet(
                 '#'+lableobjname+'{border-image:url(../artResources/defaultLattice/5j_no.png);}')
         if stars != 'N':
-            self.setUserData('strength', starIndex)
+            self.setUserEData('strength', starIndex)
 
     # 战斗选项ui
     def combatOptionsUI(self):
@@ -758,20 +819,23 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
                 <div style="font:15px Microsoft YaHei; color:rgb(168,94,35);max-width: 100px;" >{}</div></body></html>'''.format(v['name'], ccc, v['desc'])
 
                 self.qxComboBox.addItem(QtGui.QIcon("../artResources/qiXueImg/{}/{}.png".format(
-                    self.PRO[0], v['icon'])), '\n'.join(v['name']), ("a tooltip", Qt.ToolTipRole))
+                    self.PROM[0], v['icon'])), '\n'.join(v['name']), ("a tooltip", Qt.ToolTipRole))
                 self.qxComboBox.setItemData(ind, _translate(
                     'self', desc), QtCore.Qt.ToolTipRole)
-
                 ind += 1
+            if 'TalentCode' in self.userData:
+                qqxi = self.userData['TalentCode'][qxi-1]-1
+                self.qxComboBox.setCurrentIndex(qqxi)
 
     # 奇穴事件
     def qiXueEvent(self, obj):
-        op = obj.parent()
-        for qxComboBox in op.findChildren(QtWidgets.QComboBox):
-            print(qxComboBox.currentIndex())
-        # print(obj.currentIndex())
+        i = int(obj.objectName()[-2:])
+        self.setUserQData(i, obj.currentIndex())
+        # tools.Conf().writeConf('professional','pro','701')
+        # self.__init__(MainWindow)
 
     # 秘籍UI
+
     def rareBookUI(self):
         self.rbFrame = QtWidgets.QFrame(self.Calculators, objectName='rbFrame')
         self.rbFrame.setGeometry(QtCore.QRect(10, 950, 600, 170))
@@ -1013,10 +1077,10 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
         self.tsGroupBox.setToolTip(
             "Tip:\n前一个框输入0-100，表示全程覆盖百分比，\n0或空为无此增益，\n后一个框表示层数")
 
-    def setUserData(self, k, v):
+    def setUserEData(self, k, v):
         if self.position:
             p = self.N2Position[self.position]
-            if self.userData:
+            if self.userData and 'EquipList' in self.userData:
                 E = self.userData['EquipList']
                 if p in E:
                     E[p][k] = v
@@ -1025,13 +1089,25 @@ class CalculatorUI(QtWidgets.QWidget, QtCore.QObject):
                         k: v
                     }
             else:
-                self.userData = {
-                    "EquipList": {
-                        p: {
-                            k: v
-                        }
+                self.userData["EquipList"] = {
+                    p: {
+                        k: v
                     }
                 }
+
+    def setUserQData(self, k, v):
+        if self.userData and 'TalentCode' in self.userData:
+            print(1111111)
+            E = self.userData['TalentCode']
+            E[k-1] = v+1
+        else:
+            t = []
+            op = self.qxComboBox.parent()
+            for qxComboBox in op.findChildren(QtWidgets.QComboBox):
+                x = qxComboBox.currentIndex()+1
+                t.append(x)
+            self.userData["TalentCode"] = t
+        print(self.userData)
 
 
 if __name__ == '__main__':
